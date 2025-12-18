@@ -13,7 +13,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor , authInterceptor])),
+    provideHttpClient(withInterceptors([
+      errorInterceptor, 
+      loadingInterceptor, 
+      authInterceptor])),
     provideAppInitializer(async () => {
       const initService = inject(InitService);
       return lastValueFrom(initService.init()).finally(() => {

@@ -23,9 +23,12 @@ export class AccountService {
   }
 
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'account/user-info').subscribe({
-      next: user => this.currentUser.set(user)
-    })
+    return this.http.get<User>(this.baseUrl + 'account/user-info').pipe(
+      map(user =>{
+        this.currentUser.set(user);
+        return user;
+      })
+    )
   
     
   }
@@ -36,6 +39,10 @@ export class AccountService {
 
   updateAddress(address: Address) {
     return this.http.post(this.baseUrl + 'account/address', address);
+  }
+
+  getAuthState() {
+    return this.http.get<{isAuthenticated: boolean}>(this.baseUrl + 'account/auth-status');
   }
 
 }

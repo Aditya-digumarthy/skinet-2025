@@ -8,6 +8,7 @@ import { PaymentCardPipe } from '../../../shared/pipes/payment-card.pipe';
 import { OrderService } from '../../../core/services/order.service';
 import { AccountService } from '../../../core/services/account.service';
 import { Order } from '../../../shared/models/order';
+import { AdminService } from '../../../core/services/admin.service';
 
 @Component({
   selector: 'app-order-detailed',
@@ -25,9 +26,10 @@ import { Order } from '../../../shared/models/order';
   styleUrl: './order-detailed.component.scss'
 })
 export class OrderDetailedComponent implements OnInit {
-   private orderService = inject(OrderService);
+  private orderService = inject(OrderService);
   private activatedRoute = inject(ActivatedRoute);
   private accountService = inject(AccountService);
+  private adminService = inject(AdminService);
   private router = inject(Router);
   order?: Order;
   buttonText = this.accountService.isAdmin() ? 'Return to admin' : 'Return to orders'

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DeliveryMethod } from '../../../shared/models/deliveryMethod';
-import { map, of } from 'rxjs';
+import { firstValueFrom, map, of } from 'rxjs';
 import { CheckoutService } from '../../../core/services/checkout.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { CurrencyPipe } from '@angular/common';
@@ -34,12 +34,12 @@ export class CheckoutDeliveryComponent implements OnInit {
     })
   }
 
-  updateDeliveryMethod(method: DeliveryMethod) {
+  async updateDeliveryMethod(method: DeliveryMethod) {
     this.cartService.selectedDelivery.set(method);
     const cart = this.cartService.cart();
     if (cart) {
       cart.deliveryMethodId = method.id;
-      this.cartService.setCart(cart);
+      await firstValueFrom(this.cartService.setCart(cart));
       this.deliveryComplete.emit(true);
     }
   }
